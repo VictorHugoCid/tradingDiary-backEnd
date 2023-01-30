@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "outDir": "dist",
+    // "noImplicitAny": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "rootDirs": ["src", "tests"],
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"]
+    },
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      }
+    ]
+  },
+  "ts-node": {
+    "esm": true
+  },
+  "include": ["src", "tests"]
+}
+
+// {
+//   "compilerOptions": {
+//     // "target":"es2020",
+//     "outDir": "dist",
+//     "esModuleInterop": true,
+//     // "module": "es6"
+
+//   },
+//   "ts-node":{
+//     "esm":true
+//   }
+// }
