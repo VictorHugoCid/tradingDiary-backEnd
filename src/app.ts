@@ -5,15 +5,18 @@ import { loadEnv, connectDb, disconnectDB } from "@/config";
 
 loadEnv();
 
-// import { handleApplicationErrors } from "@/middlewares";
-import { usersRouter } from "@/routers";
+import { authenticationRouter, strategiesRouter, tradesRouter, userRouter } from "@/routers";
+import { handleApplicationErrors } from "./middlewares";
 
 const app = express();
 app
   .use(cors())
   .use(express.json())
-  .use("/users", usersRouter )
-  .use("/strategies", /* strategiesRouter */);
+  .use("/auth", authenticationRouter)
+  .use("/users", userRouter)
+  .use("/trades", tradesRouter)
+  .use("/strategies", strategiesRouter);
+// .use(handleApplicationErrors);
 
 export function init(): Promise<Express> {
   connectDb();
