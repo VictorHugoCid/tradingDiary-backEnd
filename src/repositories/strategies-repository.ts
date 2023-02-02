@@ -19,15 +19,16 @@ export async function findStrategyByName(name: string) {
     },
   });
 
-  return strategy.id;
+  return strategy;
 }
 
 export async function createStrategy(data: any): Promise<Strategies> {
-  const strategies = await prisma.strategies.create({
+  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:26 ~ createStrategy ~ data", data);
+  const strategy = await prisma.strategies.create({
     data,
   });
 
-  return strategies;
+  return strategy;
 }
 
 export async function update(data: any): Promise<Strategies> {

@@ -1,19 +1,32 @@
 import { TradeData } from "@/protocols";
 import { strategiesRepository, tradesRepository } from "@/repositories";
-import { calcDol, calcIndexBr, calcStocks, isGainOrLoss, stockValues } from "@/utils";
+import { isGainOrLoss, stockValues } from "@/utils";
+import dayjs from "dayjs";
 
 export async function postTrade(data: TradeData) {
   const trade = data;
 
-  let newTrade = {};
-
   const isGain = isGainOrLoss(trade.entryPrice, trade.exitPrice, trade.buyOrSell);
   const value = stockValues(trade.stock, trade.entryPrice, trade.exitPrice, trade.amount).value;
   const points = stockValues(trade.stock, trade.entryPrice, trade.exitPrice, trade.amount).points;
-  const strategyId = strategiesRepository.findStrategyByName(trade.strategy);
 
-  newTrade = { ...data, isGain, value, points, strategyId };
-  await tradesRepository.create(newTrade);
+  const strategyId = await strategyAlredyExist(trade);
+  const newTrade = {
+    ...data,
+    isGain,
+    value,
+    points,
+    strategyId,
+    day: dayjs(trade.day).toDate(),
+    entryPrice: Number(trade.entryPrice),
+    exitPrice: Number(trade.exitPrice),
+    amount: Number(trade.amount),
+  };
+
+  delete newTrade.strategy;
+
+  const tradeAdded = await tradesRepository.create(newTrade);
+  return;
 }
 
 export async function putTrade(data: TradeData) {
@@ -24,6 +37,7 @@ export async function putTrade(data: TradeData) {
   const isGain = isGainOrLoss(trade.entryPrice, trade.exitPrice, trade.buyOrSell);
   const value = stockValues(trade.stock, trade.entryPrice, trade.exitPrice, trade.amount).value;
   const points = stockValues(trade.stock, trade.entryPrice, trade.exitPrice, trade.amount).points;
+  //verificas se existe estratégia ou nao
   const strategyId = strategiesRepository.findStrategyByName(trade.strategy);
 
   newTrade = { ...data, isGain, value, points, strategyId };
@@ -35,7 +49,27 @@ export async function deleteTrade(tradeId: number) {
 }
 
 export async function getTrades() {
-  await tradesRepository.findAll;
+  const trades = await tradesRepository.findAll;
+  console.log("🚀🚀🚀 ~ file: trades-service.ts:53 ~ getTrades ~ trades", trades);
+  // return trades;
+}
+
+export async function strategyAlredyExist(trade: TradeData) {
+  const strategy = await strategiesRepository.findStrategyByName(trade.strategy);
+
+  if (strategy) {
+    const strategyId = strategy.id;
+
+    return strategyId;
+  }
+
+  const newStrategy = await strategiesRepository.createStrategy({
+    userId: trade.userId,
+    name: trade.strategy,
+    description: "",
+  });
+
+  return newStrategy.id;
 }
 
 const tradeService = {

@@ -6,12 +6,14 @@ export type ApplicationError = {
 export type TradeData = {
   buyOrSell: string
   userId: number
-  time: string
+  day: string
   stock: string
   amount: number
   strategy: string
   entryPrice: number
   exitPrice: number
+  entryTime: string
+  exitTime: string
 }
 
 // //Regra de Negócio

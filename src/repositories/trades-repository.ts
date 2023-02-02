@@ -2,13 +2,13 @@ import { prisma } from "@/config";
 import { Trades } from "@prisma/client";
 
 export async function create(data: any): Promise<Trades> {
+  console.log("🚀🚀🚀 ~ file: trades-repository.ts:5 ~ create ~ data", data);
   return await prisma.trades.create({
-    data: data,
+    data
   });
 }
 
 export async function findAll(): Promise<Trades[]> {
-  // acho q a Promise nao é void
   return await prisma.trades.findMany();
 }
 

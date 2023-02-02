@@ -48,16 +48,18 @@ model Trades {
   buyOrSell  String
   userId     Int
   User       User     @relation(fields: [userId], references: [id])
-  time       String   @unique
+  day        DateTime @db.Date
   strategyId Int
   Strategies Strategies @relation(fields: [strategyId], references: [id])
   stock      String
   amount     Int
   isGain     Boolean
-  entryPrice Int
-  exitPrice  Int
-  points     Int
-  value      Int
+  entryPrice Float	@db.DoublePrecision
+  exitPrice  Float	@db.DoublePrecision
+  points     Float	@db.DoublePrecision
+  value      Float	@db.DoublePrecision
+  entryTime  String
+  exitTime   String
   createdAt  DateTime @default(now()) @db.Timestamp(6)
   updatedAt  DateTime @updatedAt
 }
