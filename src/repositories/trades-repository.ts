@@ -1,15 +1,27 @@
 import { prisma } from "@/config";
+import { dateRange } from "@/protocols";
 import { Trades } from "@prisma/client";
 
 export async function create(data: any): Promise<Trades> {
   console.log("🚀🚀🚀 ~ file: trades-repository.ts:5 ~ create ~ data", data);
   return await prisma.trades.create({
-    data
+    data,
   });
 }
 
-export async function findAll(): Promise<Trades[]> {
-  return await prisma.trades.findMany();
+export async function findMany(body: dateRange, userId: number): Promise<Trades[]> {
+  const trades = await prisma.trades.findMany({
+    where: {
+      userId,
+      day: {
+        gte: body.startDate,
+        lte: body.endDate,
+      },
+    },
+  });
+  console.log("🚀🚀🚀 ~ file: trades-repository.ts:22 ~ findMany ~ trades", trades);
+
+  return trades;
 }
 
 export async function deleteTrade(tradeId: number): Promise<Trades> {
@@ -23,7 +35,7 @@ export async function deleteTrade(tradeId: number): Promise<Trades> {
 
 const tradesRepository = {
   create,
-  findAll,
+  findMany,
   deleteTrade,
   // update
 };

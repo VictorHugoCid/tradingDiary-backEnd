@@ -1,4 +1,4 @@
-import { TradeData } from "@/protocols";
+import { dateRange, TradeData } from "@/protocols";
 import { strategiesRepository, tradesRepository } from "@/repositories";
 import { isGainOrLoss, stockValues } from "@/utils";
 import dayjs from "dayjs";
@@ -48,10 +48,9 @@ export async function deleteTrade(tradeId: number) {
   await tradesRepository.deleteTrade(tradeId);
 }
 
-export async function getTrades() {
-  const trades = await tradesRepository.findAll;
-  console.log("🚀🚀🚀 ~ file: trades-service.ts:53 ~ getTrades ~ trades", trades);
-  // return trades;
+export async function getTrades(body: dateRange, userId: number) {
+  const trades = await tradesRepository.findMany(body, userId);
+  return trades;
 }
 
 export async function strategyAlredyExist(trade: TradeData) {

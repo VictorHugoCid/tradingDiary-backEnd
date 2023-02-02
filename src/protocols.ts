@@ -16,6 +16,11 @@ export type TradeData = {
   exitTime: string
 }
 
+export type dateRange = {
+  startDate: Date
+  endDate: Date
+}
+
 // //Regra de Negócio
 // export type AddressEnrollment = {
 //   logradouro: string,
