@@ -21,6 +21,10 @@ export type dateRange = {
   endDate: Date
 }
 
+export type strategyData = {
+  name: string
+  description: string
+}
 // //Regra de Negócio
 // export type AddressEnrollment = {
 //   logradouro: string,

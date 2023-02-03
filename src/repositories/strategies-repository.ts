@@ -1,5 +1,6 @@
 // import { prisma } from "@prisma/client";
 import { prisma } from "@/config";
+import { strategyData } from "@/protocols";
 import { Strategies } from "@prisma/client";
 
 export async function findStrategies(userId: number): Promise<Strategies[]> {
@@ -22,10 +23,13 @@ export async function findStrategyByName(name: string) {
   return strategy;
 }
 
-export async function createStrategy(data: any): Promise<Strategies> {
-  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:26 ~ createStrategy ~ data", data);
+export async function createStrategy(data: strategyData, userId: number): Promise<Strategies> {
   const strategy = await prisma.strategies.create({
-    data,
+    data: {
+      name: data.name.toLowerCase(),
+      description: data.description.toLowerCase(),
+      userId,
+    },
   });
 
   return strategy;

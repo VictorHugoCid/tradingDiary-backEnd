@@ -18,6 +18,10 @@ export async function findMany(body: dateRange, userId: number): Promise<Trades[
         lte: body.endDate,
       },
     },
+    orderBy: {
+      day: "asc",
+      entryTime: "asc",
+    },
   });
   console.log("🚀🚀🚀 ~ file: trades-repository.ts:22 ~ findMany ~ trades", trades);
 

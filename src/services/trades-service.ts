@@ -25,8 +25,7 @@ export async function postTrade(data: TradeData) {
 
   delete newTrade.strategy;
 
-  const tradeAdded = await tradesRepository.create(newTrade);
-  return;
+  return await tradesRepository.create(newTrade);
 }
 
 export async function putTrade(data: TradeData) {
@@ -61,12 +60,14 @@ export async function strategyAlredyExist(trade: TradeData) {
 
     return strategyId;
   }
-
-  const newStrategy = await strategiesRepository.createStrategy({
-    userId: trade.userId,
-    name: trade.strategy,
-    description: "",
-  });
+  const userId = trade.userId;
+  const newStrategy = await strategiesRepository.createStrategy(
+    {
+      name: trade.strategy.toLowerCase(),
+      description: "",
+    },
+    userId,
+  );
 
   return newStrategy.id;
 }
