@@ -7,18 +7,14 @@ import dayjs, { Dayjs } from "dayjs";
 export async function listTrades(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
   const startDate = dayjs(req.query.startDate.toString()).toDate();
-  console.log("🚀🚀🚀 ~ file: trades-controller.ts:10 ~ listTrades ~ req.query.startDate.", req.query.startDate);
   const endDate = dayjs(req.query.endDate.toString()).toDate();
   const body = {
     startDate,
     endDate,
   };
 
-  console.log("🚀🚀🚀 ~ file: trades-controller.ts:12 ~ listTrades ~ body", body);
-
   try {
     const trades = await tradeService.getTrades(body, userId);
-    console.log("🚀🚀🚀 ~ file: trades-controller.ts:18 ~ listTrades ~ trades", trades);
     return res.send(trades).status(httpStatus.OK);
   } catch (error) {
     return res.status(httpStatus.BAD_REQUEST).send(error);
@@ -27,9 +23,7 @@ export async function listTrades(req: AuthenticatedRequest, res: Response) {
 
 export async function addTrade(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
-  console.log("🚀🚀🚀 ~ file: trades-controller.ts:22 ~ addTrade ~ userId", userId);
   const tradeFront = req.body;
-  console.log("🚀🚀🚀 ~ file: trades-controller.ts:21 ~ addTrade ~ tradeFront", tradeFront);
 
   const trade = { ...tradeFront, userId };
 
@@ -43,7 +37,6 @@ export async function addTrade(req: AuthenticatedRequest, res: Response) {
 
 export async function updateTrade(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
-  console.log(req.params);
 
   const trade = req.body;
 

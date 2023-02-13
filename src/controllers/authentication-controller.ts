@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import httpStatus from "http-status";
 
 export async function singInPost(req: Request, res: Response) {
-  console.log("sign-IN - controler ");
+  // console.log("sign-IN - controler ");
 
   const { email, password } = req.body as SignInParams;
 

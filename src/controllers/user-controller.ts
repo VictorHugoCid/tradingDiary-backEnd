@@ -3,7 +3,6 @@ import httpStatus from "http-status";
 import { userService } from "@/services";
 
 export async function usersPost(req: Request, res: Response) {
-  console.log("sign-UP - controler ");
   const { email, password } = req.body;
 
   try {

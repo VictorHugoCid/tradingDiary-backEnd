@@ -9,16 +9,13 @@ export async function getStrategies(userId: number) {
 export async function postStrategy(data: strategyData, userId: number) {
   //verificar se já existe uma estratégia com esse nome
   const strategy = await strategiesRepository.findStrategyByName(data.name.toLowerCase());
-  console.log("🚀🚀🚀 ~ file: strategies-service.ts:12 ~ postStrategy ~ strategy", strategy);
 
   if (strategy) {
-    console.log("entrou no IF");
     // enviar erro de já existir
     throw strategyAlreadyExistsError();
   }
 
   const newStrategy = await strategiesRepository.createStrategy(data, userId);
-  console.log("🚀🚀🚀 ~ file: strategies-service.ts:21 ~ postStrategy ~ newStrategy", newStrategy);
   return newStrategy;
 }
 
@@ -35,10 +32,26 @@ export async function putStrategy(data: any) {
   return newStrategy;
 }
 
+export async function deleteStrategy(id: number) {
+  const isUsed = await strategyIsUsed(id);
+  if (isUsed) {
+    throw strategyAlreadyExistsError();
+  }
+  const strategy = await strategiesRepository.deleteStrategy(id);
+  return strategy;
+}
+
+export async function strategyIsUsed(id: number) {
+  const isUsed = await strategiesRepository.findStrategyById(id);
+
+  return isUsed;
+}
+
 const strategiesService = {
   getStrategies,
   postStrategy,
   putStrategy,
+  deleteStrategy,
 };
 
 export { strategiesService };

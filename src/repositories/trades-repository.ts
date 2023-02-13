@@ -3,7 +3,6 @@ import { dateRange } from "@/protocols";
 import { Trades } from "@prisma/client";
 
 export async function create(data: any): Promise<Trades> {
-  console.log("🚀🚀🚀 ~ file: trades-repository.ts:5 ~ create ~ data", data);
   return await prisma.trades.create({
     data,
   });
@@ -23,7 +22,6 @@ export async function findMany(body: dateRange, userId: number): Promise<Trades[
       entryTime: "asc",
     },
   });
-  console.log("🚀🚀🚀 ~ file: trades-repository.ts:22 ~ findMany ~ trades", trades);
 
   return trades;
 }

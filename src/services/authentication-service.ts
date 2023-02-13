@@ -22,7 +22,6 @@ async function signIn(params: SignInParams): Promise<SignInResult> {
 
 async function getUserOrFail(email: string): Promise<GetUserOrFailResult> {
   const user = await userRepository.findByEmail(email, { id: true, email: true, password: true });
-  console.log("🚀🚀🚀 ~ file: authentication-service.ts:25 ~ getUserOrFail ~ user", user);
 
   if (!user) throw invalidCredentialsError();
 

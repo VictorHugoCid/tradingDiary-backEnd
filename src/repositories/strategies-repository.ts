@@ -2,6 +2,7 @@
 import { prisma } from "@/config";
 import { strategyData } from "@/protocols";
 import { Strategies } from "@prisma/client";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 export async function findStrategies(userId: number): Promise<Strategies[]> {
   const strategies = await prisma.strategies.findMany({
@@ -19,6 +20,19 @@ export async function findStrategyByName(name: string) {
       name,
     },
   });
+
+  return strategy;
+}
+
+export async function findStrategyById(id: number) {
+  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:28 ~ findStrategyById ~ id", id);
+
+  const strategy = await prisma.trades.findFirst({
+    where: {
+      strategyId: id,
+    },
+  });
+  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:35 ~ findStrategyById ~ strategy", strategy);
 
   return strategy;
 }
@@ -46,11 +60,23 @@ export async function update(data: any): Promise<Strategies> {
   return strategies;
 }
 
+export async function deleteStrategy(id: number) {
+  const strategies = await prisma.strategies.delete({
+    where: {
+      id,
+    },
+  });
+
+  return;
+}
+
 const strategiesRepository = {
   findStrategyByName,
   findStrategies,
   createStrategy,
   update,
+  deleteStrategy,
+  findStrategyById,
 };
 
 export { strategiesRepository };
