@@ -21,7 +21,13 @@ export type dateRange = {
   endDate: Date
 }
 
+export type newStrategyData = {
+  name: string
+  description: string
+}
+
 export type strategyData = {
+  id: number
   name: string
   description: string
 }

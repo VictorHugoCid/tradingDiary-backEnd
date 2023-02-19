@@ -1,4 +1,4 @@
-import { addStrategies, listStrategies, deleteStrategy } from "@/controllers";
+import { addStrategy, listStrategies, deleteStrategy, updateStrategy } from "@/controllers";
 import { authenticateToken } from "@/middlewares";
 import { Router } from "express";
 
@@ -8,8 +8,8 @@ import { Router } from "express";
 const strategiesRouter = Router();
 
 strategiesRouter.get("/", authenticateToken, listStrategies);
-strategiesRouter.post("/", authenticateToken, addStrategies);
-strategiesRouter.put("/", /* validateBody(createUserSchema), usersPost */);
+strategiesRouter.post("/", authenticateToken, addStrategy);
+strategiesRouter.put("/", authenticateToken, updateStrategy);
 strategiesRouter.delete("/", deleteStrategy );
 
 export { strategiesRouter };

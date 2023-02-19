@@ -14,7 +14,7 @@ export async function listStrategies(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-export async function addStrategies(req: AuthenticatedRequest, res: Response) {
+export async function addStrategy(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
 
   const body = req.body;
@@ -29,8 +29,24 @@ export async function addStrategies(req: AuthenticatedRequest, res: Response) {
   }
 }
 
+export async function updateStrategy(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+
+  const body = req.body;
+  try {
+    const strategies = await strategiesService.putStrategy(body, userId);
+    res.status(httpStatus.OK).send(strategies);
+  } catch (error) {
+    if (error.name === "strategyAlreadyExistsError") {
+      return res.status(httpStatus.CONFLICT).send(error);
+    }
+    return res.status(httpStatus.BAD_REQUEST).send(error);
+  }
+}
+
 export async function deleteStrategy(req: AuthenticatedRequest, res: Response) {
   const { id } = req.query;
+  console.log("controller - deletando");
 
   try {
     const strategy = await strategiesService.deleteStrategy(Number(id));

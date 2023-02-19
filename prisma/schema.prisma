@@ -60,6 +60,11 @@ model Trades {
   value      Float	@db.DoublePrecision
   entryTime  String
   exitTime   String
+  condition1 Boolean @default(false)
+  condition2 Boolean @default(false)
+  condition3 Boolean @default(false)
+  condition4 Boolean @default(false)
+  condition5 Boolean @default(false)
   createdAt  DateTime @default(now()) @db.Timestamp(6)
   updatedAt  DateTime @updatedAt
 }

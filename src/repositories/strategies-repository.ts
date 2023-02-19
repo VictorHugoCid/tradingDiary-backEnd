@@ -1,6 +1,6 @@
 // import { prisma } from "@prisma/client";
 import { prisma } from "@/config";
-import { strategyData } from "@/protocols";
+import { newStrategyData, strategyData } from "@/protocols";
 import { Strategies } from "@prisma/client";
 import { CLIENT_RENEG_LIMIT } from "tls";
 
@@ -8,6 +8,9 @@ export async function findStrategies(userId: number): Promise<Strategies[]> {
   const strategies = await prisma.strategies.findMany({
     where: {
       userId,
+    },
+    orderBy: {
+      id: "asc",
     },
   });
 
@@ -25,19 +28,16 @@ export async function findStrategyByName(name: string) {
 }
 
 export async function findStrategyById(id: number) {
-  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:28 ~ findStrategyById ~ id", id);
-
   const strategy = await prisma.trades.findFirst({
     where: {
       strategyId: id,
     },
   });
-  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:35 ~ findStrategyById ~ strategy", strategy);
 
   return strategy;
 }
 
-export async function createStrategy(data: strategyData, userId: number): Promise<Strategies> {
+export async function createStrategy(data: newStrategyData, userId: number): Promise<Strategies> {
   const strategy = await prisma.strategies.create({
     data: {
       name: data.name.toLowerCase(),
@@ -49,15 +49,16 @@ export async function createStrategy(data: strategyData, userId: number): Promis
   return strategy;
 }
 
-export async function update(data: any): Promise<Strategies> {
-  const strategies = await prisma.strategies.update({
+export async function update(data: strategyData): Promise<Strategies> {
+  const strategy = await prisma.strategies.update({
     where: {
-      id: data.strategyId,
+      id: data.id,
     },
     data,
   });
+  console.log("🚀🚀🚀 ~ file: strategies-repository.ts:56 ~ update ~ strategy", strategy);
 
-  return strategies;
+  return strategy;
 }
 
 export async function deleteStrategy(id: number) {

@@ -1,5 +1,5 @@
 import { strategyAlreadyExistsError } from "@/errors";
-import { strategyData } from "@/protocols";
+import { newStrategyData, strategyData } from "@/protocols";
 import { strategiesRepository } from "@/repositories";
 
 export async function getStrategies(userId: number) {
@@ -19,7 +19,7 @@ export async function postStrategy(data: strategyData, userId: number) {
   return newStrategy;
 }
 
-export async function putStrategy(data: any) {
+export async function putStrategy(data: strategyData, userId: number) {
   //verificar se já existe uma estratégia com esse nome
   const strategy = await strategiesRepository.findStrategyByName(data.name);
 
