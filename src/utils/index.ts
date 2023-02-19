@@ -1,2 +1,4 @@
 export * from "./stocksRules";
-// export * from "./users-controller";
+// export * from "./cep-service";
+export * from "./prisma-utils";
+export * from "./request";

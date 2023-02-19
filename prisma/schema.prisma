@@ -13,16 +13,25 @@ datasource db {
 //CRIAR UM ENROLMENT PRA NOME E FOTO E OUTROS DADOS PESSOAIS
 
 model User {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String   @unique
-  password   String?
-  pictureUrl String?
-  createdAt  DateTime @default(now()) @db.Timestamp(6)
-  updatedAt  DateTime @updatedAt
+  id         Int          @id @default(autoincrement())
+  email      String       @unique @db.VarChar(255)
+  password   String?       @db.VarChar(255)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   Session    Session[]
   Trades     Trades[]
   Strategies Strategies[]
+  PersonalInfo PersonalInfo[]
+}
+
+model PersonalInfo {
+  id         Int      @id @default(autoincrement())
+  name       String
+  pictureUrl String?
+  userId    Int
+  User      User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now()) @db.Timestamp(6)
+  updatedAt  DateTime @updatedAt
 }
 
 model Session {
@@ -39,16 +48,23 @@ model Trades {
   buyOrSell  String
   userId     Int
   User       User     @relation(fields: [userId], references: [id])
-  time       String   @unique
+  day        DateTime @db.Date
   strategyId Int
   Strategies Strategies @relation(fields: [strategyId], references: [id])
   stock      String
   amount     Int
   isGain     Boolean
-  entryPrice Int
-  exitPrice  Int
-  points     Int
-  value      Int
+  entryPrice Float	@db.DoublePrecision
+  exitPrice  Float	@db.DoublePrecision
+  points     Float	@db.DoublePrecision
+  value      Float	@db.DoublePrecision
+  entryTime  String
+  exitTime   String
+  condition1 Boolean @default(false)
+  condition2 Boolean @default(false)
+  condition3 Boolean @default(false)
+  condition4 Boolean @default(false)
+  condition5 Boolean @default(false)
   createdAt  DateTime @default(now()) @db.Timestamp(6)
   updatedAt  DateTime @updatedAt
 }
@@ -61,5 +77,4 @@ model Strategies {
   description String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  Trades     Trades[]
 }

@@ -7,12 +7,11 @@ async function findByEmail(email: string, select?: Prisma.UserSelect) {
       email,
     },
   };
-
   if (select) {
     params.select = select;
   }
-
-  return prisma.user.findUnique(params);
+  // const user = prisma.user.findFirst(params);
+  return prisma.user.findFirst(params);
 }
 
 // async function findByEmailGitHub(email: string) {
@@ -21,7 +20,7 @@ async function findByEmail(email: string, select?: Prisma.UserSelect) {
 // }
 
 async function create(data) {
-  return prisma.user.create({
+  return await prisma.user.create({
     data,
   });
 }
@@ -32,4 +31,4 @@ const userRepository = {
   // findByEmailGitHub,
 };
 
-export default userRepository;
+export { userRepository };

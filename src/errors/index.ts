@@ -6,3 +6,4 @@ export * from "./unauthorized-error";
 export * from "./request-error";
 export * from "./duplicatedEmailError";
 export * from "./strategyAlreadyExistsError";
+export * from "./invalidCredentialsError";
